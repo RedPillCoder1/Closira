@@ -1,0 +1,130 @@
+{
+  "business": {
+    "name": "PuzzleVault Experiences",
+    "tagline": "Immersive escape rooms for groups, corporates, and thrill-seekers.",
+    "hours": {
+      "weekdays": "Monday to Friday, 11:00 AM – 9:00 PM",
+      "weekends": "Saturday and Sunday, 10:00 AM – 10:00 PM"
+    },
+    "location": "12 Riddle Lane, Indiranagar, Bangalore – 560038",
+    "contact": {
+      "phone": "+91 98765 43210",
+      "email": "hello@puzzlevault.in",
+      "whatsapp": "+91 98765 43210"
+    },
+    "booking_channels": ["WhatsApp", "Website (puzzlevault.in)", "Phone call"],
+    "cancellation_policy": "Full refund if cancelled 24 hours before the slot. No refund for cancellations within 24 hours. Rescheduling allowed up to 12 hours before the slot, subject to availability."
+  },
+  "rooms": [
+    {
+      "name": "The Pharaoh's Curse",
+      "theme": "Ancient Egypt mystery",
+      "difficulty": "Beginner",
+      "duration_minutes": 60,
+      "min_players": 2,
+      "max_players": 6,
+      "price_per_person": 599,
+      "description": "Unravel the secrets of a buried pharaoh's tomb before the curse claims you. Great for first-timers.",
+      "age_restriction": "Suitable for ages 10 and above. Under 16 must be accompanied by an adult."
+    },
+    {
+      "name": "Operation Blackout",
+      "theme": "Spy thriller / Cold War",
+      "difficulty": "Intermediate",
+      "duration_minutes": 60,
+      "min_players": 3,
+      "max_players": 8,
+      "price_per_person": 749,
+      "description": "You are undercover agents with 60 minutes to defuse a global threat. Communication and teamwork are critical.",
+      "age_restriction": "Suitable for ages 14 and above. Under 18 must be accompanied by an adult."
+    },
+    {
+      "name": "The Last Signal",
+      "theme": "Sci-fi / Space station survival",
+      "difficulty": "Advanced",
+      "duration_minutes": 75,
+      "min_players": 4,
+      "max_players": 10,
+      "price_per_person": 899,
+      "description": "A distress signal from a dying space station. Your crew has 75 minutes to restore power and escape. Our hardest room — only 20% completion rate.",
+      "age_restriction": "Suitable for ages 16 and above. Not recommended for people with claustrophobia."
+    },
+    {
+      "name": "Heist at the Grand",
+      "theme": "Casino heist",
+      "difficulty": "Intermediate",
+      "duration_minutes": 60,
+      "min_players": 3,
+      "max_players": 8,
+      "price_per_person": 749,
+      "description": "Plan and execute the perfect casino heist before the vault resets. Cunning over brawn.",
+      "age_restriction": "Suitable for ages 14 and above."
+    }
+  ],
+  "pricing": {
+    "standard": "Priced per person per room. See individual room listings.",
+    "corporate_packages": {
+      "available": true,
+      "description": "Custom packages for groups of 10 or more. Includes dedicated game master, post-game debrief, and optional catering tie-ups.",
+      "price_note": "Corporate pricing is custom-quoted. Contact us directly for a quote.",
+      "minimum_group_size": 10
+    },
+    "birthday_packages": {
+      "available": true,
+      "description": "Birthday group bookings include a complimentary decoration setup and a group photo with props.",
+      "surcharge": "No surcharge. Standard per-person pricing applies."
+    },
+    "discounts": {
+      "weekday_discount": "10% off on all weekday bookings (Mon–Fri).",
+      "student_discount": "15% off with valid student ID. Applicable on weekdays only.",
+      "returning_customer": "10% loyalty discount for repeat bookings. Mention previous booking at checkout."
+    }
+  },
+  "faqs": [
+    {
+      "question": "Can I book for a team of 2?",
+      "answer": "Yes. The Pharaoh's Curse accepts groups as small as 2 players. Most other rooms require a minimum of 3–4 players."
+    },
+    {
+      "question": "Is photography allowed inside the rooms?",
+      "answer": "Photography is not allowed inside the rooms to preserve the experience for future players. However, we take a complimentary group photo at the end of your session outside the room."
+    },
+    {
+      "question": "What if we get stuck?",
+      "answer": "Your game master monitors the session and provides hints via an in-room screen or intercom. You can request up to 3 hints per session."
+    },
+    {
+      "question": "Is parking available?",
+      "answer": "Yes. Free parking is available in the building basement for up to 2 hours."
+    },
+    {
+      "question": "Are the rooms wheelchair accessible?",
+      "answer": "The Pharaoh's Curse and Heist at the Grand are wheelchair accessible. Operation Blackout and The Last Signal involve multi-level movement and are not suitable."
+    },
+    {
+      "question": "Can we bring food or drinks?",
+      "answer": "Outside food and drinks are not permitted inside the rooms. We have a small café area in the lobby where you can eat before or after your session."
+    },
+    {
+      "question": "What is the best room for beginners?",
+      "answer": "The Pharaoh's Curse is our beginner-friendly room and is the best starting point for first-timers."
+    },
+    {
+      "question": "Do you offer gift vouchers?",
+      "answer": "Yes. Gift vouchers are available in denominations of ₹500, ₹1000, and ₹2000. They can be purchased via our website or WhatsApp."
+    }
+  ],
+  "escalation_rules": {
+    "always_escalate_if": [
+      "Customer expresses a complaint or dissatisfaction",
+      "Customer requests a refund",
+      "Customer asks about medical or safety incidents inside a room",
+      "Customer requests to speak to a manager or human agent",
+      "Customer is negotiating pricing beyond stated discounts",
+      "Question cannot be answered from the SOP",
+      "Customer has asked more than 2 questions the AI could not answer",
+      "Customer expresses frustration, anger, or uses aggressive language"
+    ],
+    "escalation_message": "I completely understand, and I want to make sure you get the right support. Let me connect you with one of our team members who can help you directly. Please hold on — someone will reach out to you within 15 minutes."
+  }
+}
