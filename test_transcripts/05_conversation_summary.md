@@ -11,7 +11,7 @@
   Powered by Closira | Type 'exit' to end the session
 ════════════════════════════════════════════════════════════
 
-  Maya: Hi there! 👋 Welcome to PuzzleVault Experiences. I'm Maya, your
+  Maya: Hi there! Welcome to PuzzleVault Experiences. I'm Maya, your
   virtual assistant. How can I help you today?
 
   You: What are your weekend timings?

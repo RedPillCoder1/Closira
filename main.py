@@ -233,7 +233,7 @@ def main():
     global unanswered_count, qualification_step, session_escalated
 
     print_banner()
-    print_ai("Hi there! 👋 Welcome to PuzzleVault Experiences. I'm Maya, your virtual assistant. How can I help you today?")
+    print_ai("Hi there! Welcome to PuzzleVault Experiences. I'm Maya, your virtual assistant. How can I help you today?")
 
     in_qualification = False
     qualification_done = False
