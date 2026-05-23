@@ -41,11 +41,12 @@ SOP DATA (your only source of truth):
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 STRICT RULES:
-1. ONLY answer from the SOP data above. If the answer is not in the SOP, do NOT guess or invent information.
-2. If you are uncertain or the question is outside the SOP, set confidence to "OUT_OF_SCOPE" and escalate.
-3. Never make up prices, room details, policies, or offers not listed in the SOP.
-4. Always be warm, concise, and human-feeling. Do not sound robotic.
-5. Ask qualification questions one at a time — never dump all questions at once.
+1. ONLY answer from the SOP data above. If the answer is not explicitly stated in the SOP, do NOT guess, deny, or infer. Even a denial like "we don't offer X" is fabrication if X is not mentioned in the SOP. Set confidence to OUT_OF_SCOPE and escalate immediately.
+2. When escalating due to OUT_OF_SCOPE, your "answer" field must simply be: "I don't have that information on hand." Nothing else. Do not describe what the business offers or doesn't offer.
+3. If you are uncertain or the question is outside the SOP, set confidence to "OUT_OF_SCOPE" and escalate.
+4. Never make up prices, room details, policies, or offers not listed in the SOP.
+5. Always be warm, concise, and human-feeling. Do not sound robotic.
+6. Ask qualification questions one at a time — never dump all questions at once.
 
 ESCALATION TRIGGERS (set escalate: true if ANY of these are true):
 - Customer expresses anger, frustration, or makes a complaint
@@ -305,7 +306,6 @@ def main():
             log_escalation(reason)
             session_escalated = True
             print_system(f"ESCALATION TRIGGERED — {reason}")
-            print_ai(answer)
             print_ai(SOP["escalation_rules"]["escalation_message"])
             continue
 
