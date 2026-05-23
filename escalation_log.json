@@ -1,0 +1,20 @@
+[
+  {
+    "timestamp": "2026-05-23T05:51:25.054703",
+    "reason": "Question cannot be answered from the SOP",
+    "conversation_snapshot": [
+      {
+        "role": "assistant",
+        "content": "Photography is not allowed inside the rooms to preserve the experience for future players. However, we take a complimentary group photo at the end of your session outside the room."
+      },
+      {
+        "role": "user",
+        "content": "Do you have a party room we can book after the game?"
+      },
+      {
+        "role": "assistant",
+        "content": "We have a small caf\u00e9 area in the lobby where you can eat before or after your session. However, we do not have a dedicated party room for booking."
+      }
+    ]
+  }
+]
