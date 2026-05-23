@@ -16,24 +16,24 @@
 
   You: What is the best room for beginners?
 
-  Maya: The Pharaoh's Curse is our beginner-friendly room and is the best
-  starting point for first-timers.
+  Maya: The Pharaoh's Curse is our beginner-friendly room and is the
+  best starting point for first-timers.
 
   Maya: While I have you here — mind if I ask a couple of quick questions
   to help find the best experience for your group? How many people will
   be joining you?
 
-  You: we are a group of 6
+  You: 6 people
 
   Maya: What's the occasion — birthday, corporate outing, or just a fun
   group hangout?
 
-  You: birthday party
+  You: birthday
 
   Maya: Have any of you done an escape room before, or will this be a
   first time?
 
-  You: first time
+  You: yes
 
   System: [Lead qualification complete]
 
@@ -49,16 +49,16 @@
   SESSION SUMMARY
 ════════════════════════════════════════════════════════════
 {
-  "customer_intent": "best room for beginners",
+  "customer_intent": "book a room for a birthday group of 6 people",
   "lead_profile": {
-    "group_size": "a group of 6",
-    "occasion": "birthday party",
-    "experience_level": "first time"
+    "group_size": "6 people",
+    "occasion": "birthday",
+    "experience_level": "yes"
   },
   "sop_gaps": [],
   "escalated": false,
   "escalation_reasons": [],
-  "recommended_next_action": "Direct the group to The Pharaoh's Curse room for their birthday party"
+  "recommended_next_action": "book a birthday package for the customer in The Pharaoh's Curse room on a date and time of their choice"
 }
 ════════════════════════════════════════════════════════════
 ```
@@ -69,4 +69,4 @@
 **Lead profile collected:** All 3 fields (group size, occasion, experience level)  
 **Questions asked one at a time:** Yes — never batched  
 **Escalated:** No  
-**Recommended next action:** Correctly references The Pharaoh's Curse — the SOP-defined beginner room — no invented suggestions.
+**Hallucination check:** Recommended next action references The Pharaoh's Curse (SOP-defined beginner room) and the birthday package (SOP-defined offering) — no invented actions or bookings.

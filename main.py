@@ -175,12 +175,12 @@ Return ONLY valid JSON:
   "sop_gaps": ["<list of questions the AI could not answer>"],
   "escalated": <true | false>,
   "escalation_reasons": ["<list of reasons if any>"],
-  "recommended_next_action": "<what the human agent or business should do next>"
+  "recommended_next_action": "<what the human agent should do next — based ONLY on what was discussed. Do not invent actions, bookings, or situations that did not occur in the conversation>"
 }}
 """
 
     messages = [
-        {"role": "system", "content": "You are a data summarization assistant. Respond only with valid JSON."},
+        {"role": "system", "content": "You are a data summarization assistant. Respond only with valid JSON. Base every field strictly on the conversation history provided. Do not infer, assume, or invent any actions, bookings, or events that are not explicitly present in the conversation."},
         {"role": "user", "content": summary_prompt}
     ]
 
@@ -240,53 +240,82 @@ def main():
 
     while True:
         try:
-            user_input = input("  You: ").strip()
+          user_input = input("  You: ").strip()
         except (EOFError, KeyboardInterrupt):
-            print("\n")
-            break
+          print("\n")
+          break
 
         if not user_input:
-            continue
+          continue
 
         if user_input.lower() in ["exit", "quit", "bye", "done"]:
-            print_ai("Thank you for reaching out to PuzzleVault! Let me put together a quick summary of our conversation...")
-            summary = generate_summary()
-            print("\n" + "═" * 60)
-            print("SESSION SUMMARY")
-            print("═" * 60)
-            print(json.dumps(summary, indent=2))
-            print("═" * 60 + "\n")
-            break
+          print_ai("Thank you for reaching out to PuzzleVault! Let me put together a quick summary of our conversation...")
+          summary = generate_summary()
+          print("\n" + "═" * 60)
+          print("SESSION SUMMARY")
+          print("═" * 60)
+          print(json.dumps(summary, indent=2))
+          print("═" * 60 + "\n")
+          break
 
         # Keyword-based escalation check (Python layer, independent of AI)
         if detect_escalation_keywords(user_input) and not session_escalated:
-            reason = "Customer expressed frustration or complaint (keyword detection)"
-            log_escalation(reason)
-            session_escalated = True
-            print_system(f"ESCALATION TRIGGERED — {reason}")
-            print_ai(SOP["escalation_rules"]["escalation_message"])
-            continue
+          reason = "Customer expressed frustration or complaint (keyword detection)"
+          log_escalation(reason)
+          session_escalated = True
+          print_system(f"ESCALATION TRIGGERED — {reason}")
+          print_ai(SOP["escalation_rules"]["escalation_message"])
+          continue
 
         #If already escalated, keep routing to human
         if session_escalated:
-            print_ai("I've already flagged your case for our team. A PuzzleVault team member will reach out to you within 15 minutes. Is there anything else I can note down for them?")
-            continue
+          print_ai("I've already flagged your case for our team. A PuzzleVault team member will reach out to you within 15 minutes. Is there anything else I can note down for them?")
+          continue
 
         # Handle qualification flow
         if in_qualification and not qualification_done:
-            handle_qualification_response(user_input)
+          # Check if customer is asking a question instead of answering
+          result = call_ai(user_input)
+          confidence = result.get("confidence", "HIGH")
+          escalate = result.get("escalate", False)
 
-            if qualification_step < len(QUALIFICATION_QUESTIONS):
-                next_q = QUALIFICATION_QUESTIONS[qualification_step]
-                qualification_step += 1
-                print_ai(next_q)
-                continue
-            else:
-                qualification_done = True
-                in_qualification = False
-                print_system("Lead qualification complete")
-                print_ai(f"Perfect, thank you! I've noted that down. Now, is there anything else you'd like to know about our rooms or booking process?")
-                continue
+          if confidence == "OUT_OF_SCOPE" or escalate:
+            # Handle normally — don't swallow the message
+            if escalate and not session_escalated:
+              reason = result.get("escalation_reason") or "AI flagged escalation during qualification"
+              log_escalation(reason)
+              session_escalated = True
+              print_system(f"ESCALATION TRIGGERED — {reason}")
+              print_ai(SOP["escalation_rules"]["escalation_message"])
+              continue
+            sop_gaps.append(user_input)
+            unanswered_count += 1
+            print_ai(result.get("answer", ""))
+            # Re-ask the same qualification question
+            print_ai(QUALIFICATION_QUESTIONS[qualification_step - 1])
+            continue
+
+          # If it looks like an FAQ question, answer it first then re-ask
+          if confidence == "HIGH" and "?" in user_input:
+            print_ai(result.get("answer", ""))
+            # Re-ask the same qualification question
+            print_ai(QUALIFICATION_QUESTIONS[qualification_step - 1])
+            continue
+
+          # Normal qualification answer — store and advance
+          handle_qualification_response(user_input)
+
+          if qualification_step < len(QUALIFICATION_QUESTIONS):
+            next_q = QUALIFICATION_QUESTIONS[qualification_step]
+            qualification_step += 1
+            print_ai(next_q)
+            continue
+          else:
+            qualification_done = True
+            in_qualification = False
+            print_system("Lead qualification complete")
+            print_ai(f"Perfect, thank you! I've noted that down. Now, is there anything else you'd like to know about our rooms or booking process?")
+            continue
 
         result = call_ai(user_input)
 
@@ -297,39 +326,39 @@ def main():
 
         # Track SOP gaps
         if confidence == "OUT_OF_SCOPE":
-            sop_gaps.append(user_input)
-            unanswered_count += 1
+          sop_gaps.append(user_input)
+          unanswered_count += 1
 
         # AI-flagged escalation
         if escalate and not session_escalated:
-            reason = escalation_reason or "AI flagged low confidence or out-of-scope"
-            log_escalation(reason)
-            session_escalated = True
-            print_system(f"ESCALATION TRIGGERED — {reason}")
-            print_ai(SOP["escalation_rules"]["escalation_message"])
-            continue
+          reason = escalation_reason or "AI flagged low confidence or out-of-scope"
+          log_escalation(reason)
+          session_escalated = True
+          print_system(f"ESCALATION TRIGGERED — {reason}")
+          print_ai(SOP["escalation_rules"]["escalation_message"])
+          continue
 
         # Too many unanswered questions
         if unanswered_count >= 2 and not session_escalated:
-            reason = "Customer asked 2+ questions outside SOP scope"
-            log_escalation(reason)
-            session_escalated = True
-            print_system(f"ESCALATION TRIGGERED — {reason}")
-            print_ai(SOP["escalation_rules"]["escalation_message"])
-            continue
+          reason = "Customer asked 2+ questions outside SOP scope"
+          log_escalation(reason)
+          session_escalated = True
+          print_system(f"ESCALATION TRIGGERED — {reason}")
+          print_ai(SOP["escalation_rules"]["escalation_message"])
+          continue
 
         print_ai(answer)
 
         #Trigger qualification after first successful FAQ response
         if not in_qualification and not qualification_done and confidence == "HIGH" and not escalate:
-            in_qualification = True
-            qualification_step = 1
-            time.sleep(0.3)
-            print_ai(f"While I have you here — mind if I ask a couple of quick questions to help find the best experience for your group? {QUALIFICATION_QUESTIONS[0]}")
+          in_qualification = True
+          qualification_step = 1
+          time.sleep(0.3)
+          print_ai(f"While I have you here — mind if I ask a couple of quick questions to help find the best experience for your group? {QUALIFICATION_QUESTIONS[0]}")
 
 
 if __name__ == "__main__":
-    if not GROQ_API_KEY:
-        print("\n  ⚠️  GROQ_API_KEY not set. Run: export GROQ_API_KEY=your_key_here\n")
-    else:
-        main()
+  if not GROQ_API_KEY:
+    print("\n  ⚠️  GROQ_API_KEY not set. Run: export GROQ_API_KEY=your_key_here\n")
+  else:
+    main()

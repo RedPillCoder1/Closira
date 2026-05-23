@@ -1,7 +1,7 @@
 # Test Transcript 05 — Full Conversation + Session Summary
 
 **Scenario:** Complete end-to-end session. Customer asks multiple questions — some in SOP, one out of scope. Full qualification collected. Session ends with structured summary.  
-**Expected behaviour:** All 4 stages fire correctly. SOP gap logged. Summary includes intent, lead profile, gap, and next action.
+**Expected behaviour:** All 4 stages fire correctly. SOP gap logged. Summary includes intent, lead profile, gap, and next action — all grounded in what actually happened.
 
 ---
 
@@ -22,17 +22,17 @@
   to help find the best experience for your group? How many people will
   be joining you?
 
-  You: 6 people
+  You: 4 people
 
   Maya: What's the occasion — birthday, corporate outing, or just a fun
   group hangout?
 
-  You: casual hangout
+  You: casual outing
 
   Maya: Have any of you done an escape room before, or will this be a
   first time?
 
-  You: yes all of us have tried before
+  You: first time for all of us
 
   System: [Lead qualification complete]
 
@@ -63,11 +63,11 @@
   SESSION SUMMARY
 ════════════════════════════════════════════════════════════
 {
-  "customer_intent": "Plan a casual hangout with a group of 6 people, likely looking for a fun experience",
+  "customer_intent": "Plan a casual outing for a group of 4 people",
   "lead_profile": {
-    "group_size": "6 people",
-    "occasion": "casual hangout",
-    "experience_level": "yes all of us have tried before"
+    "group_size": "4 people",
+    "occasion": "casual outing",
+    "experience_level": "first time for all of us"
   },
   "sop_gaps": [
     "Do you have a party room we can book after the game?"
@@ -76,7 +76,7 @@
   "escalation_reasons": [
     "Question cannot be answered from the SOP"
   ],
-  "recommended_next_action": "Contact the customer to provide a suitable solution for their party needs, such as recommending an external venue or offering a refund for the party room booking"
+  "recommended_next_action": "Provide information about external party rooms or suggest alternative options for the group to celebrate after the game"
 }
 ════════════════════════════════════════════════════════════
 ```
@@ -91,4 +91,4 @@
 - Stage 4 — Conversation Summary: intent, lead profile, SOP gap, and next action all present ✅
 
 **SOP gap identified:** "Do you have a party room we can book after the game?" — flagged for SOP update  
-**Hallucination check:** Photography answer matches SOP verbatim. Party room question produced no invented answer — escalated immediately.
+**Hallucination check:** Photography answer matches SOP exactly. Party room question produced no invented answer — escalated immediately. Summary recommended next action is based only on what occurred in the conversation — no invented bookings or refunds.
